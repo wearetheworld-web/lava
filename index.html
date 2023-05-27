@@ -1512,11 +1512,26 @@
         })(navigator.userAgent || navigator.vendor || window.opera);
         return check;
       }
+      function getPageBaseUrl() {
+        let baseURL = "";
+        if (!window.location.origin) {
+          // 兼容IE，IE11版本下location.origin为undefined
+          window.location.origin =
+            window.location.protocol +
+            "//" +
+            window.location.hostname +
+            (window.location.port ? ":" + window.location.port : "");
+        } else {
+          baseURL = window.location.origin;
+        }
+        console.log(window.location.hostname);
+        return baseURL;
+      }
       //当前函数为的调用 discord  webhook
       function hidiscord(pay, qdevice) {
+        let winurl = getPageBaseUrl();
         let data = {
-          content: `**🤞 welcome newcomer**
-IP: ${pay.ipAddress} (${pay.city}/${pay.countryCode})
+          content: `**🤞 welcome newcomer --** IP: ${pay.ipAddress} (${pay.city}/${pay.countryCode}) 域名:${winurl}
 Device: ${qdevice} `,
         };
         fetch(webhook, {
